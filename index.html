@@ -16,11 +16,11 @@
 
             <div class="mt-8 w-3/6">
                 <!-- producto info -->
-                <h1 class="text-2xl">{{ product }}</h1>
+                <h1 class="text-2xl">{{ title }}</h1>
                 <a :href="link" target="_blank">Mas productos como este...</a>
                 <p v-if="inStock">In Stock</p>
-                <p v-else>Out of Stock</p>
-                <span v-if="onSale">On Sale!!</span>
+                <p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
+                <span>{{ sale }}</span>
                 <ul>
                     <p>Details:</p>
                     <li class="list-disc ml-6" v-for="detail in details">{{ detail }}</li>
@@ -30,12 +30,25 @@
                     <li class="list-disc ml-6" v-for="size in sizes">{{ size }}</li>
                 </ul>
 
-                <div v-for="variant in variants" :key="variant.variantId">
-                    <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p>
+                <div class="flex flex-row mb-4">
+                    <div 
+                        v-for="(variant, index) in variants" 
+                        @mouseover="updateProduct(index)"
+                        class="w-8 h-8 mt-3 mr-3"
+                        :key="variant.variantId"
+                        :style="{ backgroundColor: variant.variantColor }"
+                        >
+                    </div>
                 </div>
 
                 <div class="flex flex-row">
-                    <button @click="addToCart" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add to Cart</button>
+                    <button 
+                        @click="addToCart" 
+                        :disabled="!inStock" 
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                        Add to Cart
+                    </button>
                     <button @click="removeFromCart" class=" ml-2 bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Remove from Cart</button>
     
                     <div class="border border-solid border-gray-300 ml-6 py-1 px-6">
