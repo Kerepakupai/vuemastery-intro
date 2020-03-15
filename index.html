@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product App</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="text-gray-700 font-sans text-lg">
+    <nav class="bg-blue-900 h-16 mb-2"></nav>
+    <div id="app">
+        <div class="flex flex-wrap p-4">
+            <div class="w-3/6">
+                <img class="border border-solid border-gray-300 w-3/5 m-12" :src="image" :alt="altText">
+            </div>
+
+            <div class="mt-8 w-3/6">
+                <!-- producto info -->
+                <h1 class="text-2xl">{{ product }}</h1>
+                <a :href="link" target="_blank">Mas productos como este...</a>
+                <p v-if="inStock">In Stock</p>
+                <p v-else>Out of Stock</p>
+                <span v-if="onSale">On Sale!!</span>
+                <ul>
+                    <p>Details:</p>
+                    <li class="list-disc ml-6" v-for="detail in details">{{ detail }}</li>
+                </ul>
+                <ul>
+                    <p>Sizes:</p>
+                    <li class="list-disc ml-6" v-for="size in sizes">{{ size }}</li>
+                </ul>
+
+                <div v-for="variant in variants" :key="variant.variantId">
+                    <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p>
+                </div>
+
+                <div class="flex flex-row">
+                    <button @click="addToCart" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add to Cart</button>
+                    <button @click="removeFromCart" class=" ml-2 bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Remove from Cart</button>
+    
+                    <div class="border border-solid border-gray-300 ml-6 py-1 px-6">
+                        <p>Cart({{ cart }})</p>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
